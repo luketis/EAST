@@ -150,7 +150,7 @@ def main(argv=None):
 
             im_fn_list = get_images()
             for im_fn in im_fn_list:
-                im = cv2.imread(im_fn)[:, :, ::-1]
+                im = cv2.imread(im_fn)[:620, :, ::-1]
                 start_time = time.time()
                 im_resized, (ratio_h, ratio_w) = resize_image(im)
 
@@ -172,12 +172,9 @@ def main(argv=None):
                 print('[timing] {}'.format(duration))
 
                 # save to file
-                if boxes is not None:
-                    res_file = os.path.join(
-                        FLAGS.output_dir,
-                        '{}.txt'.format(
-                            os.path.basename(im_fn).split('.')[0]))
-
+                if boxes is not None and 0 not in boxes.shape:
+                    res_file = FLAGS.output_dir + '{}.txt'.format(os.path.basename(im_fn))
+ 
                     with open(res_file, 'w') as f:
                         for box in boxes:
                             # to avoid submitting errors
