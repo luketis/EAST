@@ -100,6 +100,8 @@ def detect(score_map, geo_map, timer, score_map_thresh=0.8, box_thresh=0.1, nms_
     boxes = lanms.merge_quadrangle_n9(boxes.astype('float32'), nms_thres)
     timer['nms'] = time.time() - start
 
+    print(boxes.shape[0], 'boxes after nms')
+    
     if boxes.shape[0] == 0:
         return None, timer
 
@@ -110,6 +112,8 @@ def detect(score_map, geo_map, timer, score_map_thresh=0.8, box_thresh=0.1, nms_
         boxes[i, 8] = cv2.mean(score_map, mask)[0]
     boxes = boxes[boxes[:, 8] > box_thresh]
 
+    print(boxes.shape[0], 'boxes after average score map')
+    
     return boxes, timer
 
 
